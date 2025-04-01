@@ -2155,6 +2155,277 @@ static bool isTranslatableKey(Qt::Key key)
     return ret;
 }
 
+static char keyToAscii(Qt::Key key)
+{
+    switch (key) {
+    case Qt::Key_Backspace: return 0x8; //BS
+    case Qt::Key_Tab: return 0x09; // HT
+    case Qt::Key_Backtab: return 0x0b; // VT
+    case Qt::Key_Enter:
+    case Qt::Key_Return: return 0x0d; // CR
+    case Qt::Key_Escape: return 0x1b; // ESC
+    case Qt::Key_Space: return 0x20;        // 7 bit printable ASCII
+    case Qt::Key_Exclam: return 0x21;
+    case Qt::Key_QuoteDbl: return 0x22;
+    case Qt::Key_NumberSign: return 0x23;
+    case Qt::Key_Dollar: return 0x24;
+    case Qt::Key_Percent: return 0x25;
+    case Qt::Key_Ampersand: return 0x26;
+    case Qt::Key_Apostrophe: return 0x27;
+    case Qt::Key_ParenLeft: return 0x28;
+    case Qt::Key_ParenRight: return 0x29;
+    case Qt::Key_Asterisk: return 0x2a;
+    case Qt::Key_Plus: return 0x2b;
+    case Qt::Key_Comma: return 0x2c;
+    case Qt::Key_Minus: return 0x2d;
+    case Qt::Key_Period: return 0x2e;
+    case Qt::Key_Slash: return 0x2f;
+    case Qt::Key_0: return 0x30;
+    case Qt::Key_1: return 0x31;
+    case Qt::Key_2: return 0x32;
+    case Qt::Key_3: return 0x33;
+    case Qt::Key_4: return 0x34;
+    case Qt::Key_5: return 0x35;
+    case Qt::Key_6: return 0x36;
+    case Qt::Key_7: return 0x37;
+    case Qt::Key_8: return 0x38;
+    case Qt::Key_9: return 0x39;
+    case Qt::Key_Colon: return 0x3a;
+    case Qt::Key_Semicolon: return 0x3b;
+    case Qt::Key_Less: return 0x3c;
+    case Qt::Key_Equal: return 0x3d;
+    case Qt::Key_Greater: return 0x3e;
+    case Qt::Key_Question: return 0x3f;
+    case Qt::Key_At: return 0x40;
+    case Qt::Key_A: return 0x61; // 0x41 == 'A', 0x61 == 'a'
+    case Qt::Key_B: return 0x62;
+    case Qt::Key_C: return 0x63;
+    case Qt::Key_D: return 0x64;
+    case Qt::Key_E: return 0x65;
+    case Qt::Key_F: return 0x66;
+    case Qt::Key_G: return 0x67;
+    case Qt::Key_H: return 0x68;
+    case Qt::Key_I: return 0x69;
+    case Qt::Key_J: return 0x6a;
+    case Qt::Key_K: return 0x6b;
+    case Qt::Key_L: return 0x6c;
+    case Qt::Key_M: return 0x6d;
+    case Qt::Key_N: return 0x6e;
+    case Qt::Key_O: return 0x6f;
+    case Qt::Key_P: return 0x70;
+    case Qt::Key_Q: return 0x71;
+    case Qt::Key_R: return 0x72;
+    case Qt::Key_S: return 0x73;
+    case Qt::Key_T: return 0x74;
+    case Qt::Key_U: return 0x75;
+    case Qt::Key_V: return 0x76;
+    case Qt::Key_W: return 0x77;
+    case Qt::Key_X: return 0x78;
+    case Qt::Key_Y: return 0x79;
+    case Qt::Key_Z: return 0x7a;
+    case Qt::Key_BracketLeft: return 0x5b;
+    case Qt::Key_Backslash: return 0x5c;
+    case Qt::Key_BracketRight: return 0x5d;
+    case Qt::Key_AsciiCircum: return 0x5e;
+    case Qt::Key_Underscore: return 0x5f;
+    case Qt::Key_QuoteLeft: return 0x60;
+
+    case Qt::Key_BraceLeft: return 0x7b;
+    case Qt::Key_Bar: return 0x7c;
+    case Qt::Key_BraceRight: return 0x7d;
+    case Qt::Key_AsciiTilde: return 0x7e;
+
+    case Qt::Key_Delete: return 0;
+    case Qt::Key_Insert: return 0; // = 0x1006,
+    case Qt::Key_Pause: return 0; // = 0x1008,
+    case Qt::Key_Print: return 0; // = 0x1009,
+    case Qt::Key_SysReq: return 0; // = 0x100a,
+
+    case Qt::Key_Clear: return 0; // = 0x100b,
+
+    case Qt::Key_Home: return 0; // = 0x1010,        // cursor movement
+    case Qt::Key_End: return 0; // = 0x1011,
+    case Qt::Key_Left: return 0; // = 0x1012,
+    case Qt::Key_Up: return 0; // = 0x1013,
+    case Qt::Key_Right: return 0; // = 0x1014,
+    case Qt::Key_Down: return 0; // = 0x1015,
+    case Qt::Key_PageUp: return 0; // = 0x1016,
+    case Qt::Key_PageDown: return 0; // = 0x1017,
+    case Qt::Key_Shift: return 0; // = 0x1020,        // modifiers
+    case Qt::Key_Control: return 0; // = 0x1021,
+    case Qt::Key_Meta: return 0; // = 0x1022,
+    case Qt::Key_Alt: return 0; // = 0x1023,
+    case Qt::Key_CapsLock: return 0; // = 0x1024,
+    case Qt::Key_NumLock: return 0; // = 0x1025,
+    case Qt::Key_ScrollLock: return 0; // = 0x1026,
+    case Qt::Key_F1: return 0; // = 0x1030,        // function keys
+    case Qt::Key_F2: return 0; // = 0x1031,
+    case Qt::Key_F3: return 0; // = 0x1032,
+    case Qt::Key_F4: return 0; // = 0x1033,
+    case Qt::Key_F5: return 0; // = 0x1034,
+    case Qt::Key_F6: return 0; // = 0x1035,
+    case Qt::Key_F7: return 0; // = 0x1036,
+    case Qt::Key_F8: return 0; // = 0x1037,
+    case Qt::Key_F9: return 0; // = 0x1038,
+    case Qt::Key_F10: return 0; // = 0x1039,
+    case Qt::Key_F11: return 0; // = 0x103a,
+    case Qt::Key_F12: return 0; // = 0x103b,
+    case Qt::Key_F13: return 0; // = 0x103c,
+    case Qt::Key_F14: return 0; // = 0x103d,
+    case Qt::Key_F15: return 0; // = 0x103e,
+    case Qt::Key_F16: return 0; // = 0x103f,
+    case Qt::Key_F17: return 0; // = 0x1040,
+    case Qt::Key_F18: return 0; // = 0x1041,
+    case Qt::Key_F19: return 0; // = 0x1042,
+    case Qt::Key_F20: return 0; // = 0x1043,
+    case Qt::Key_F21: return 0; // = 0x1044,
+    case Qt::Key_F22: return 0; // = 0x1045,
+    case Qt::Key_F23: return 0; // = 0x1046,
+    case Qt::Key_F24: return 0; // = 0x1047,
+    case Qt::Key_F25: return 0; // = 0x1048,        // F25 .. F35 only on X11
+    case Qt::Key_F26: return 0; // = 0x1049,
+    case Qt::Key_F27: return 0; // = 0x104a,
+    case Qt::Key_F28: return 0; // = 0x104b,
+    case Qt::Key_F29: return 0; // = 0x104c,
+    case Qt::Key_F30: return 0; // = 0x104d,
+    case Qt::Key_F31: return 0; // = 0x104e,
+    case Qt::Key_F32: return 0; // = 0x104f,
+    case Qt::Key_F33: return 0; // = 0x1050,
+    case Qt::Key_F34: return 0; // = 0x1051,
+    case Qt::Key_F35: return 0; // = 0x1052,
+    case Qt::Key_Super_L: return 0; // = 0x1053,        // extra keys
+    case Qt::Key_Super_R: return 0; // = 0x1054,
+    case Qt::Key_Menu: return 0; // = 0x1055,
+    case Qt::Key_Hyper_L: return 0; // = 0x1056,
+    case Qt::Key_Hyper_R: return 0; // = 0x1057,
+    case Qt::Key_Help: return 0; // = 0x1058,
+    case Qt::Key_Direction_L: return 0; // = 0x1059,
+    case Qt::Key_Direction_R: return 0; // = 0x1060,
+
+    // Latin 1 codes adapted from X: keysymdef.h,v 1.21 94/08/28 16:17:06
+    case Qt::Key_nobreakspace: return char(0xa0);
+    case Qt::Key_exclamdown: return char(0xa1);
+    case Qt::Key_cent: return char(0xa2);
+    case Qt::Key_sterling: return char(0xa3);
+    case Qt::Key_currency: return char(0xa4);
+    case Qt::Key_yen: return char(0xa5);
+    case Qt::Key_brokenbar: return char(0xa6);
+    case Qt::Key_section: return char(0xa7);
+    case Qt::Key_diaeresis: return char(0xa8);
+    case Qt::Key_copyright: return char(0xa9);
+    case Qt::Key_ordfeminine: return char(0xaa);
+    case Qt::Key_guillemotleft: return char(0xab); // left angle quotation mar
+    case Qt::Key_notsign: return char(0xac);
+    case Qt::Key_hyphen: return char(0xad);
+    case Qt::Key_registered: return char(0xae);
+    case Qt::Key_macron: return char(0xaf);
+    case Qt::Key_degree: return char(0xb0);
+    case Qt::Key_plusminus: return char(0xb1);
+    case Qt::Key_twosuperior: return char(0xb2);
+    case Qt::Key_threesuperior: return char(0xb3);
+    case Qt::Key_acute: return char(0xb4);
+    case Qt::Key_micro: return char(0xb5);
+    case Qt::Key_paragraph: return char(0xb6);
+    case Qt::Key_periodcentered: return char(0xb7);
+    case Qt::Key_cedilla: return char(0xb8);
+    case Qt::Key_onesuperior: return char(0xb9);
+    case Qt::Key_masculine: return char(0xba);
+    case Qt::Key_guillemotright: return char(0xbb); // right angle quotation mar
+    case Qt::Key_onequarter: return char(0xbc);
+    case Qt::Key_onehalf: return char(0xbd);
+    case Qt::Key_threequarters: return char(0xbe);
+    case Qt::Key_questiondown: return char(0xbf);
+    case Qt::Key_Agrave: return char(0xc0);
+    case Qt::Key_Aacute: return char(0xc1);
+    case Qt::Key_Acircumflex: return char(0xc2);
+    case Qt::Key_Atilde: return char(0xc3);
+    case Qt::Key_Adiaeresis: return char(0xc4);
+    case Qt::Key_Aring: return char(0xe5);
+    case Qt::Key_AE: return char(0xe6);
+    case Qt::Key_Ccedilla: return char(0xc7);
+    case Qt::Key_Egrave: return char(0xc8);
+    case Qt::Key_Eacute: return char(0xc9);
+    case Qt::Key_Ecircumflex: return char(0xca);
+    case Qt::Key_Ediaeresis: return char(0xcb);
+    case Qt::Key_Igrave: return char(0xcc);
+    case Qt::Key_Iacute: return char(0xcd);
+    case Qt::Key_Icircumflex: return char(0xce);
+    case Qt::Key_Idiaeresis: return char(0xcf);
+    case Qt::Key_ETH: return char(0xd0);
+    case Qt::Key_Ntilde: return char(0xd1);
+    case Qt::Key_Ograve: return char(0xd2);
+    case Qt::Key_Oacute: return char(0xd3);
+    case Qt::Key_Ocircumflex: return char(0xd4);
+    case Qt::Key_Otilde: return char(0xd5);
+    case Qt::Key_Odiaeresis: return char(0xd6);
+    case Qt::Key_multiply: return char(0xd7);
+    case Qt::Key_Ooblique: return char(0xf8);
+    case Qt::Key_Ugrave: return char(0xd9);
+    case Qt::Key_Uacute: return char(0xda);
+    case Qt::Key_Ucircumflex: return char(0xdb);
+    case Qt::Key_Udiaeresis: return char(0xdc);
+    case Qt::Key_Yacute: return char(0xdd);
+    case Qt::Key_THORN: return char(0xde);
+    case Qt::Key_ssharp: return char(0xdf);
+    case Qt::Key_division: return char(0xf7);
+    case Qt::Key_ydiaeresis: return char(0xff);
+
+    // multimedia/internet keys - ignored by default - see QKeyEvent c'tor
+
+    case Qt::Key_Back : return 0; // = 0x1061,
+    case Qt::Key_Forward : return 0; // = 0x1062,
+    case Qt::Key_Stop : return 0; // = 0x1063,
+    case Qt::Key_Refresh : return 0; // = 0x1064,
+
+    case Qt::Key_VolumeDown: return 0; // = 0x1070,
+    case Qt::Key_VolumeMute : return 0; // = 0x1071,
+    case Qt::Key_VolumeUp: return 0; // = 0x1072,
+    case Qt::Key_BassBoost: return 0; // = 0x1073,
+    case Qt::Key_BassUp: return 0; // = 0x1074,
+    case Qt::Key_BassDown: return 0; // = 0x1075,
+    case Qt::Key_TrebleUp: return 0; // = 0x1076,
+    case Qt::Key_TrebleDown: return 0; // = 0x1077,
+
+    case Qt::Key_MediaPlay : return 0; // = 0x1080,
+    case Qt::Key_MediaStop : return 0; // = 0x1081,
+    case Qt::Key_MediaPrevious : return 0; // = 0x1082,
+    case Qt::Key_MediaNext : return 0; // = 0x1083,
+    case Qt::Key_MediaRecord: return 0; // = 0x1084,
+
+    case Qt::Key_HomePage : return 0; // = 0x1090,
+    case Qt::Key_Favorites : return 0; // = 0x1091,
+    case Qt::Key_Search : return 0; // = 0x1092,
+    case Qt::Key_Standby: return 0; // = 0x1093,
+    case Qt::Key_OpenUrl: return 0; // = 0x1094,
+
+    case Qt::Key_LaunchMail : return 0; // = 0x10a0,
+    case Qt::Key_LaunchMedia: return 0; // = 0x10a1,
+    case Qt::Key_Launch0 : return 0; // = 0x10a2,
+    case Qt::Key_Launch1 : return 0; // = 0x10a3,
+    case Qt::Key_Launch2 : return 0; // = 0x10a4,
+    case Qt::Key_Launch3 : return 0; // = 0x10a5,
+    case Qt::Key_Launch4 : return 0; // = 0x10a6,
+    case Qt::Key_Launch5 : return 0; // = 0x10a7,
+    case Qt::Key_Launch6 : return 0; // = 0x10a8,
+    case Qt::Key_Launch7 : return 0; // = 0x10a9,
+    case Qt::Key_Launch8 : return 0; // = 0x10aa,
+    case Qt::Key_Launch9 : return 0; // = 0x10ab,
+    case Qt::Key_LaunchA : return 0; // = 0x10ac,
+    case Qt::Key_LaunchB : return 0; // = 0x10ad,
+    case Qt::Key_LaunchC : return 0; // = 0x10ae,
+    case Qt::Key_LaunchD : return 0; // = 0x10af,
+    case Qt::Key_LaunchE : return 0; // = 0x10b0,
+    case Qt::Key_LaunchF : return 0; // = 0x10b1,
+
+    // Keypad navigation keys
+    case Qt::Key_Select : return 0; // = 0x01010000
+    case Qt::Key_Yes : return 0; // = 0x01010001
+    case Qt::Key_No : return 0; // = 0x01010002
+
+    default: return 0;
+    }
+}
+
 //Need more test here !
 void CvWindow::keyPressEvent(QKeyEvent *evnt)
 {
@@ -2162,7 +2433,7 @@ void CvWindow::keyPressEvent(QKeyEvent *evnt)
     const Qt::Key qtkey = static_cast<Qt::Key>(key);
 
     if ( isTranslatableKey( qtkey ) )
-        key = static_cast<int>( QTest::keyToAscii( qtkey ) );
+        key = static_cast<int>( keyToAscii( qtkey ) );
     else
         key = evnt->nativeVirtualKey(); //same codes as returned by GTK-based backend
 
