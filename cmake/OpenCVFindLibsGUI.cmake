@@ -14,7 +14,7 @@ macro(ocv_find_package_Qt4)
 endmacro()
 
 macro(ocv_find_package_Qt OCV_QT_VER)
-  find_package(Qt${OCV_QT_VER} COMPONENTS Core Gui Widgets Test Concurrent ${ARGN} NO_MODULE)
+  find_package(Qt${OCV_QT_VER} COMPONENTS Core Gui Widgets Concurrent ${ARGN} NO_MODULE)
   if(Qt${OCV_QT_VER}_FOUND)
     set(QT_FOUND 1)
     set(QT_VERSION "${Qt${OCV_QT_VER}_VERSION}")
