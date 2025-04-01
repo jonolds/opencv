@@ -938,6 +938,15 @@ struct GeluFunctor : public BaseFunctor {
     }
 #endif  // HAVE_DNN_NGRAPH
 
+
+#ifdef HAVE_HALIDE
+    void attachHalide(const Halide::Expr& input, Halide::Func& top)
+    {
+        CV_Error(Error::StsNotImplemented, "");
+    }
+#endif  // HAVE_HALIDE
+
+
 #ifdef HAVE_CANN
     Ptr<BackendNode> initCannOp(const std::string& name,
                                 const std::vector<Ptr<BackendWrapper> > &inputs,
