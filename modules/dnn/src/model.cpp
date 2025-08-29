@@ -961,6 +961,34 @@ struct TextRecognitionModel_Impl : public Model::Impl
             results.push_back(s);
         }
     }
+	
+	
+    virtual
+    void recognize2(InputArray frame, const std::vector<Rect> &roiRects, CV_OUT std::vector<std::string>& results)
+    {
+
+        CV_TRACE_FUNCTION();
+        results.clear();
+        if (roiRects.empty())
+        {
+            auto s = recognize(frame);
+            results.push_back(s);
+            return;
+        }
+		
+
+        std::vector<Rect> rects = roiRects;
+
+        // Predict for each RoI
+        Mat input = frame.getMat();
+        for (size_t i = 0; i < rects.size(); i++)
+        {
+            Rect roiRect = rects[i];
+            Mat roi = input(roiRect);
+            auto s = recognize(roi);
+            results.push_back(s);
+        }
+    }
 
     static inline
     TextRecognitionModel_Impl& from(const std::shared_ptr<Model::Impl>& ptr)
@@ -1016,6 +1044,11 @@ std::string TextRecognitionModel::recognize(InputArray frame) const
 void TextRecognitionModel::recognize(InputArray frame, InputArrayOfArrays roiRects, CV_OUT std::vector<std::string>& results) const
 {
     TextRecognitionModel_Impl::from(impl).recognize(frame, roiRects, results);
+}
+
+void TextRecognitionModel::recognize2(InputArray frame, const std::vector<Rect> &roiRects, CV_OUT std::vector<std::string>& results) const
+{
+    TextRecognitionModel_Impl::from(impl).recognize2(frame, roiRects, results);
 }
 
 

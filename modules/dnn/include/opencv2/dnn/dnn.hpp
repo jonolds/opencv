@@ -1902,6 +1902,15 @@ public:
      */
     CV_WRAP
     void recognize(InputArray frame, InputArrayOfArrays roiRects, CV_OUT std::vector<std::string>& results) const;
+	
+    /**
+     * @brief Given the @p input frame, create input blob, run net and return recognition result
+     * @param[in] frame The input image
+     * @param[in] roiRects List of text detection regions of interest (cv::Rect, CV_32SC4). ROIs is be cropped as the network inputs
+     * @param[out] results A set of text recognition results.
+     */	
+    CV_WRAP
+    void recognize2(InputArray frame, const std::vector<Rect>& roiRects, CV_OUT std::vector<std::string>& results) const;
 };
 
 
